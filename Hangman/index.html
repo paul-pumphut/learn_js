@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Игра Виселица</title>
+</head>
+
+<body>
+	<script>
+		'use strict'
+
+		console.log('start');
+
+		const words = [
+			'телега',
+			'крокодил',
+			'сокровище',
+			'программирование',
+			'дзюдо',
+			'конфета',
+			'пицца',
+			'кот',
+			'кит',
+			'гармония',
+			'колбаса',
+			'яичница',
+			'очки',
+			'акула',
+			'лабрадор',
+			'калитка',
+			'дом',
+			'забор',
+			'дорога',
+			'машина',
+			'самолет',
+			'корабль',
+		];
+
+		let difficultMode = prompt('Выберите редим игры:\n1. Легкий, в два раза больше ходов (easy)\n2. В полтора раза больше ходов (normal)\n3. Количество ходов равняется количеству букв (hard)');
+		let moves = 0;
+		difficultMode = Number(difficultMode) || 3;
+		difficultMode = difficultMode < 1 || difficultMode > 3 ? 3 : difficultMode;
+		console.log("difficultMode:", difficultMode);
+
+		//	выбираем слово и превращаем в массив
+		const word = words[Math.floor(Math.random() * words.length)].split('');
+		console.log("текущее слово:", word);
+		const letters = [];
+		//	заполняем символом _ для каждой буквы слова
+		word.forEach(l => letters.push('_'));
+		console.log("letters:", letters);
+		moves = ~~(difficultMode == 1 ? word.length * 2 : (difficultMode == 2 ? word.length * 1.5 : word.length));
+		console.log("moves:", moves);
+		let win = false;
+		while (moves) {
+			let attempt = prompt("Загадано слово:\n" + letters.join(' ') + "\nОсталось попыток: " + moves + "\nВведите букву, которая, как вы думаете, есть в этом слове?");
+			if (!attempt) continue;
+			attempt = attempt.toLowerCase();
+			word.forEach((l, i) => {
+				//	проверяем каждую букву и также проверяем что она не была еще открыта
+				if (l == attempt && letters[i] == '_') {
+					letters[i] = l;
+				}
+			});
+
+			if (!letters.includes('_')) {
+				win = true;
+				break;
+			}
+			moves--;
+		}
+
+		alert("Конец игры.\nБыло загадано слово:\n         " + word.join('').toLocaleUpperCase() + (win ? "\n     и Вы его угадали!\n\n     Вы ПОБЕДИЛИ!!!" : "\n  но вы его не угадали.\n        Вы, к сожалению, проиграли."));
+	</script>
+</body>
+
+</html>

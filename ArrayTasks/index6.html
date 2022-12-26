@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>task 6</title>
+</head>
+<body>
+	<script>
+		/**
+		 * Описание задачи: Напишите функцию, которая убирает повторяющиеся значения.
+		 * Ожидаемый результат: [1, 2, 3, 1, 2] => [1, 2, 3]
+		 * Сложность задачи: 2 of 5
+		 * @param {Array<string | number>} array - Массив с примитивными значениями
+		 * @returns {Array}
+		*/
+		const unique = (array) => {
+			return array.reduce((acc,curr)=>{
+				if(!acc.includes(curr))
+					acc.push(curr);
+				return acc;
+			},[]);
+		}
+
+		const data = [1, 2, 1, 2, 3];
+		console.log(unique(data)); // [1, 2, 3]
+	</script>
+</body>
+</html>

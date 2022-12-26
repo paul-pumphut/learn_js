@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>task 7</title>
+</head>
+<body>
+	<script>
+		/**
+		 * Описание задачи: Напишите функцию, которая сравнивает два массива и возвращает true, если они идентичны.
+		 * Ожидаемый результат: ([1, 2, 3], [1, 2, 3]) => true
+		 * Сложность задачи: 2 of 5
+		 * @param {Array} firstArray - Массив с примитивными значениями
+		 * @param {Array} secondArray - Массив с примитивными значениями
+		 * @returns {boolean}
+		*/
+		const isEqual = (firstArray, secondArray) => {
+			if (firstArray.length != secondArray.length)
+				return false;
+			return firstArray.filter(v=>secondArray.includes(v)).length == firstArray.length;
+		}
+
+		const arr1 = [1, 2, 3, 4];
+		const arr2 = [1, 2, 3, 4];
+		const arr3 = [1, 2, 3, 5];
+		const arr4 = [1, 2, 3, 4, 5];
+		console.log(isEqual(arr1, arr2)); // true
+		console.log(isEqual(arr1, arr3)); // false
+		console.log(isEqual(arr1, arr4)); // false        
+	</script>
+</body>
+</html>

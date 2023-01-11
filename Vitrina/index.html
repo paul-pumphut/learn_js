@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Vitrina</title>
+</head>
+<body>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	body{
+		font-family: Verdana,serif;
+		font-size: 14px;
+	}
+
+	.app{
+		padding-top: 10px;
+	}
+	
+	.products{
+		width: 100%;
+		margin-bottom: 10px;
+		display: flex;
+		justify-content: center;
+		gap: 20px;
+	}
+
+	.product{
+		padding: 10px;
+		border: 1px solid #dbdbdb;
+		border-radius: 10px;
+		width: 200px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	
+	button{
+		width: 50px;
+		height: 20px;
+		border:none;
+		border-radius: 2px;
+	}
+
+	.cart{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+	}
+	
+	.cart ul{
+		display: block;
+		width: 300px;
+		border: 1px solid #dbdbdb;
+		border-radius: 5px;
+		padding: 10px;
+	}
+	
+	.cart li{
+		text-align: center;
+		list-style-type: none;
+		margin-bottom: 5px;
+	}
+	
+	.cart a{
+		color: black;
+	}
+	
+</style>
+
+
+<div class="app">
+	<div class="products">
+		<!-- fill by JS -->
+	</div>
+	<hr>
+	<div class="cart">
+		<h3>Cart</h3>
+		<ul class="cart-list">
+			<!-- fill by JS -->
+		</ul>
+		<h4>Total price: <span class="total-price">_</span></h4>
+	</div>
+</div>
+
+<script src="./app.js"></script>
+
+</body>
+</html>

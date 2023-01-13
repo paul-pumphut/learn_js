@@ -1,4 +1,6 @@
 .vscode
+.parcel-cache
+node_modules
 
 # Build and Release Folders
 bin-debug/

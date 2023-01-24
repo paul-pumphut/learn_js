@@ -1,0 +1,14 @@
+{
+	"name": "ipaddresstracker",
+	"version": "1.0.0",
+	"scripts": {
+		"start":"parcel index.html --open",
+		"build":"parcel build index.html --dist-dir=build --no-content-hash"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"parcel": "^2.8.3"
+	}
+}

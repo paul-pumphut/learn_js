@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Калькулятор</title>
+</head>
+<body>
+	<div class="container">
+		<div class="calculator">
+			<div class="calculator__inputs">
+				<input type="text" id="firstField" maxlength="10">
+				<select id="cmbOperation">
+					<option value="+">+</option>
+					<option value="-">-</option>
+					<option value="*">*</option>
+					<option value="/">/</option>
+				</select>
+				<input type="text" id="secondField" maxlength="10">
+				<button>=</button>
+			</div>
+			<div class="calculator__outputs">
+				<input type="text" id="resultField" readonly>
+			</div>
+		</div>
+	</div>
+	<script src="./app.js"></script>
+</body>
+</html>

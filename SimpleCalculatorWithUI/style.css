@@ -1,0 +1,89 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html,body{
+	overflow: hidden;
+}
+
+
+.container{
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.calculator{
+	width: 500px;
+	min-height: 200px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.calculator__inputs, .calculator__outputs{
+	width: 100%;
+}
+
+input{
+	border: 2px solid rgba(110, 56, 124, 0.5);
+	border-radius: 10px;
+	height: 40px;
+	font-size: 24px;
+	font-weight: 700;
+	color: blueviolet;
+	text-align: right;
+	padding-right: 10px;
+}
+
+select{
+	font-size: 30px;
+	font-weight: 700;
+	color: blueviolet;
+	border:none;
+}
+
+select:focus{
+	outline: none;
+}
+
+
+.calculator__inputs{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}
+
+.calculator__inputs button{
+	width: 70px;
+	height: 40px;
+	color: blueviolet;
+	border:2px solid blueviolet;
+	border-radius:10px;
+	font-size: 20px;
+	font-weight: 700;
+	background-color: #fff;
+}
+
+.calculator__inputs input{
+	width: 190px;
+}
+
+.calculator__outputs input{
+	width: 100%;
+}
+
+.calculator__inputs input:focus{
+	outline: 2px solid rgb(208, 18, 255);
+}
+
+.calculator__outputs input:focus{
+	outline: none;
+}

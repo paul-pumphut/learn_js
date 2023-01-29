@@ -1,0 +1,124 @@
+*{
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	font-size: 24px;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+
+.container
+{
+
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	padding-top: 20px;
+	
+}
+
+.wrapper{
+	display: flex;
+	flex-direction: column;
+	align-items:center;
+}
+
+.wrapper h1{
+	font-size: 40px;
+	color: blueviolet;
+	padding-bottom: 10px;
+}
+
+.add_task_wrapper{
+	width: 80px;
+	height: 80px;
+	display: flex;
+	align-items:center;
+	justify-content: center;
+
+}
+.add_task{
+	width: 70px;
+	height: 70px;
+	font-size: 70px;
+	color:blueviolet;
+	text-align: center;
+	line-height: 0px;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+	border: 3px solid blueviolet;
+	border-radius:100%;
+	background-color: #fff;
+	transition: all .1s;
+}
+
+.add_task:hover{
+	width: 75px;
+	height: 75px;
+	background-color: rgb(243, 228, 255);
+}
+
+.add_task:active{
+	width: 75px;
+	height: 75px;
+	background-color: blueviolet;
+	color:#fff;
+
+}
+
+.wrapper input{
+	width: 500px;
+	height: 50px;
+	border:3px solid rgb(89, 199, 38);
+	border-width: 0px;
+	border-radius: 10px;
+	margin-bottom: 30px;
+	padding-left: 15px;
+	transition: height 0.5s;
+	height: 0px;
+}
+
+.wrapper input:focus{
+	outline: none;
+}
+
+.wrapper li{
+	width: 500px;
+	height: 50px;
+	border:3px solid blueviolet;
+	border-radius: 25px;
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 10px;
+	padding-left: 15px;
+	position: relative;
+}
+
+.wrapper li .trash_btn{
+	width: 35px;
+	height: 35px;
+	position: absolute;
+	top: 4px;
+	right: 15px;
+	border:none;
+	background:none;
+	display:none;
+}
+.wrapper li:hover .trash_btn{
+	display: block;
+}
+
+.wrapper li .trash_btn img{
+	width: 30px;
+	height: 30px;
+	filter: invert(9%) sepia(85%) saturate(5293%) hue-rotate(276deg) brightness(94%) contrast(94%);
+}
+
+.wrapper li .trash_btn:active img{
+	width: 30px;
+	height: 30px;
+	filter: invert(19%) sepia(85%) saturate(5293%) hue-rotate(276deg) brightness(94%) contrast(94%);
+}

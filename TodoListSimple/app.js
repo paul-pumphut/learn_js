@@ -2,11 +2,12 @@
 let btnAddTask;
 let taskInput;
 let tasksContainer;
+let tasks;
 
 
 function init() {
-	tasksContainer = document.querySelector('.wrapper ul');
 
+	tasksContainer = document.querySelector('.wrapper ul');
 
 	btnAddTask = document.querySelector('.add_task');
 	btnAddTask.addEventListener('click', onAddTaskClick);
@@ -14,15 +15,22 @@ function init() {
 	taskInput = document.querySelector('.wrapper input');
 	taskInput.addEventListener('focus', onTaskInputFocus);
 	taskInput.addEventListener('blur', onTaskInputBlur);
+
+	restoreSavedTasks();
+
+}
+
+function restoreSavedTasks() {
+	tasks = localStorage.getItem('pp_todo') ?? '[]';
+	tasks = JSON.parse(tasks);
+	tasks.forEach(t => addTask(t, false));
 }
 
 function onTaskInputFocus(e) {
-	console.log('focusd');
 	taskInput.addEventListener('keyup', onTaskInputKU);
 }
 
 function onTaskInputBlur(e) {
-	console.log('bluerd');
 	taskInput.removeEventListener('keyup', onTaskInputKU);
 }
 
@@ -41,8 +49,14 @@ function onAddTaskClick(e) {
 	taskInput.focus();
 }
 
-function addTask(value) {
+function addTask(value, saveTask = true) {
 	console.log('add task:', value);
+
+	if (saveTask) {
+		tasks.push(value);
+		localStorage.setItem('pp_todo', JSON.stringify(tasks));
+	}
+
 	taskInput.style.borderWidth = '0px';
 	taskInput.style.height = '0px';
 
@@ -59,8 +73,11 @@ function addTask(value) {
 
 function removeTask(e) {
 	const btn = e.target.parentNode;
+	const li = btn.parentNode;
+	tasks = tasks.filter(todo => todo != li.innerText);
+	localStorage.setItem('pp_todo', JSON.stringify(tasks));
 	btn.removeEventListener('click', removeTask);
-	tasksContainer.removeChild(btn.parentNode);
+	tasksContainer.removeChild(li);
 }
 
 

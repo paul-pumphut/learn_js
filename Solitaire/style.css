@@ -1,0 +1,153 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body{
+	background-color: rgb(76, 47, 110);
+	overflow: hidden;
+}
+
+.canvas{
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	
+	--s: 50px;
+	--c: #191b22;
+	--_s: calc(2*var(--s)) calc(2*var(--s));
+	--_g: 35.36% 35.36% at;
+	--_c: #0000 66%,#20222a 68% 70%,#0000 72%;
+	background: 
+	  radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s), 
+	  radial-gradient(var(--_g) 0 75%,var(--_c)) var(--s) var(--s)/var(--_s), 
+	  radial-gradient(var(--_g) 100% 25%,var(--_c)) 0 0/var(--_s), 
+	  radial-gradient(var(--_g) 0 75%,var(--_c)) 0 0/var(--_s), 
+	  repeating-conic-gradient(var(--c) 0 25%,#0000 0 50%) 0 0/var(--_s), 
+	  radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+	background-attachment: fixed;
+
+	/*
+	--s: 60px;
+  
+	--_g: #0000 83%,#0e5217 85% 99%,#0000 101%;
+	background:
+	  radial-gradient(27% 29% at right ,var(--_g)) calc(var(--s)/ 2) var(--s),
+	  radial-gradient(27% 29% at left  ,var(--_g)) calc(var(--s)/-2) var(--s),
+	  radial-gradient(29% 27% at top   ,var(--_g)) 0 calc(var(--s)/ 2),
+	  radial-gradient(29% 27% at bottom,var(--_g)) 0 calc(var(--s)/-2)
+	  #126b28;
+	background-size: calc(2*var(--s)) calc(2*var(--s));
+	*/
+	pointer-events: none;
+}
+
+.placeholder{
+	position: absolute;
+	width: 130px;
+	height: 200px;
+	outline: 2px dashed rgb(171, 194, 183);
+	outline-offset: -5px;
+}
+
+.placeholder .bg{
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 120px;
+	height: 190px;
+	background-color:rgba(171, 194, 183, 0.2);
+}
+
+.placeholder .content{
+	position: absolute;
+	top: 20px;
+	left: 24px;
+	font-size: 140px;
+	font-family: 'Courier New', Courier, monospace;
+	font-weight: normal;
+	color:rgba(171, 194, 183, 0.2);
+}
+
+
+.card{
+	font-family: 'Courier New', Courier, monospace;
+	font-weight: bold;
+	position: absolute;
+	width: 130px;
+	height: 200px;
+	border: 4px solid rgb(125, 155, 140);
+	border-radius:10px;
+	background-color: #fff;
+}
+
+.cardblack{
+	color: #000;
+}
+
+.cardred{
+	color: #f70000;
+}
+
+.card .face .tl-corner{
+	position: absolute;
+	font-size: 24px;
+	top:2px;
+	left:4px;
+	user-select: none;
+	pointer-events: none;
+
+}
+
+.card .face .br-corner{
+	position: absolute;	
+	font-size: 24px;
+	top:164px;
+	rotate: 180deg;
+	user-select: none;
+	pointer-events: none;
+}
+
+.br-corner1{
+	left:90px;
+}
+
+.br-corner10{
+	left:75px;
+}
+
+.card .face .center{
+	position: absolute;
+	font-size: 60px;
+	top:60px;
+	user-select: none;
+	pointer-events: none;
+}
+
+.center1{
+	left:23px;
+}
+
+.center10{
+	left:6px;
+}
+
+.card .back{
+	position: absolute;
+	top:7px;
+	left: 6px;
+	width: 110px;
+	height: 180px;
+	border:none;
+	border-radius:5px;
+
+	--_c: #f8f8f8;
+	opacity: 0.8;
+	background-image:  linear-gradient(135deg, var(--_c) 25%, transparent 25%), linear-gradient(225deg, var(--_c) 25%, transparent 25%), linear-gradient(45deg, var(--_c) 25%, transparent 25%), linear-gradient(315deg, var(--_c) 25%, #b4b4b4 25%);
+	background-position:  10px 0, 10px 0, 0 0, 0 0;
+	background-size: 10px 10px;
+	background-repeat: repeat;
+
+	pointer-events: none;
+}

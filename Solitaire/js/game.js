@@ -123,21 +123,30 @@ export class Game {
 			shift += 0.5;
 		}
 
-		this.stacks = new Array(AppData.COLUMN_NUMS).fill([]);
+		this.stacks = new Array(AppData.COLUMN_NUMS).fill(0).map(() => []);
+
+		//new Array(AppData.COLUMN_NUMS).fill([]);
 		let counter = this.deck.length;
-		for (let i = 6; i >= 0; i--) {
-			for (let t = 0; t < i + 1; t++) {
+		let delay = 0;
+		let depth = -100;
+
+		for (let i = 0; i < 7; i++) {
+			for (let t = i; t < 7; t++) {
 				const card = this.deck[--counter];
-				card.open();
-				this.stacks[i][t] = card;
-				// gsap.to(card, { x: this.placeholderStacks[i].x, y: this.placeholderStacks[i].y + AppData.COLUMN_GAP * t, duration: 0.5 });
-				card.x = this.placeholderStacks[i].x;
-				card.y = this.placeholderStacks[i].y + AppData.COLUMN_GAP * t;
-				card.z = t;
+				this.stacks[t][i] = card;
+				delay += 0.051;
+				depth++;
+				const $depth = depth;
+				const $isColumnEnd = t == i;
+				const g = gsap.to(card,
+					{
+						x: this.placeholderStacks[t].x, y: this.placeholderStacks[t].y + AppData.COLUMN_GAP * i,
+						duration: 0.5,
+						delay: delay,
+						onUpdate: () => { if (g.totalProgress() > 0.3) card.z = $depth; if (g.totalProgress() > 0.5 && $isColumnEnd) card.open(); }
+					});
 			}
 		}
-
-		// const card = this.deck[51];
-		// gsap.to(card, { x: 600, y: 200, duration: 0.5 });
+		// console.dir(this.stacks);
 	}
 }

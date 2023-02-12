@@ -24,8 +24,11 @@ export class Card extends GameObject {
 		this.face.innerHTML = `<div class="tl-corner">
 								${this.code}
 							</div>
+							<div class="center_under">
+								${this.suit}
+							</div>
 							<div class="center ${this.value == 10 ? 'center10' : 'center1'}">
-								${this.code}
+								${this.name}
 							</div>
 							<div class="br-corner ${this.value == 10 ? 'br-corner10' : 'br-corner1'}">
 								${this.code}

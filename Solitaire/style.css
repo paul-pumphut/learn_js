@@ -125,12 +125,22 @@ body{
 	pointer-events: none;
 }
 
+.card .face .center_under{
+	position: absolute;
+	font-size: 180px;
+	top:0px;
+	left:6px;
+	user-select: none;
+	pointer-events: none;
+	opacity: 0.05;
+}
+
 .center1{
-	left:23px;
+	left:42px;
 }
 
 .center10{
-	left:6px;
+	left:26px;
 }
 
 .card .back{

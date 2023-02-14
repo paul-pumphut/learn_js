@@ -53,6 +53,7 @@ body{
 	height: 200px;
 	outline: 2px dashed rgb(171, 194, 183);
 	outline-offset: -5px;
+	pointer-events: none;
 }
 
 .placeholder .bg{
@@ -99,8 +100,6 @@ body{
 	font-size: 24px;
 	top:2px;
 	left:4px;
-	user-select: none;
-	pointer-events: none;
 
 }
 
@@ -109,8 +108,6 @@ body{
 	font-size: 24px;
 	top:164px;
 	rotate: 180deg;
-	user-select: none;
-	pointer-events: none;
 }
 
 .br-corner1{
@@ -125,8 +122,6 @@ body{
 	position: absolute;
 	font-size: 60px;
 	top:60px;
-	user-select: none;
-	pointer-events: none;
 }
 
 .card .face .center_under{
@@ -134,8 +129,6 @@ body{
 	font-size: 180px;
 	top:0px;
 	left:6px;
-	user-select: none;
-	pointer-events: none;
 	opacity: 0.05;
 }
 
@@ -162,6 +155,4 @@ body{
 	background-position:  10px 0, 10px 0, 0 0, 0 0;
 	background-size: 10px 10px;
 	background-repeat: repeat;
-
-	pointer-events: none;
 }

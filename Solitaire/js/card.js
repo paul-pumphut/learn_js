@@ -46,7 +46,13 @@ export class Card extends GameObject {
 
 		this.open();
 		// this.close();
+
+		// this.view.addEventListener('mousedown', this.onMD);
 	}
+
+	// onMD(e) {
+	// e.preventDefault();
+	// }
 
 	open() {
 		this.face.style.display = 'block';

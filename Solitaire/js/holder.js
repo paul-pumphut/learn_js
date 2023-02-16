@@ -1,10 +1,17 @@
 import { AppData } from "./app_data.js";
 import { GameObject } from "./game_object.js";
+import { HolderModel } from "./holder_model.js";
 
-export class Placeholder extends GameObject {
+export class Holder extends GameObject {
+
+
+	#model;
+
 	constructor(initObj = null) {
 		super();
-		// console.log('Placeholder::ctor');
+		// console.log('Holder::ctor');
+
+		this.#model = new HolderModel();
 
 		this.view = document.createElement('div');
 		this.view.classList.add('placeholder');
@@ -25,6 +32,11 @@ export class Placeholder extends GameObject {
 		}
 
 		document.body.appendChild(this.view);
+	}
+
+
+	get pile() {
+		return this.#model.pile;
 	}
 
 

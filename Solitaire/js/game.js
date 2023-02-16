@@ -1,6 +1,9 @@
+import { AppController } from "./app_controller.js";
 import { AppData } from "./app_data.js";
+import { AppModel } from "./app_model.js";
 import { Card } from "./card.js";
 import { Placeholder } from "./placeholder.js";
+import { SingletonA } from "./singleton_a.js";
 
 export class Game {
 
@@ -19,6 +22,11 @@ export class Game {
 
 
 	init() {
+
+		AppModel.inst.initialize();
+		AppController.inst.initialize();
+
+
 		this.placeholderDeck = new Placeholder();
 		this.placeholderDeck.x = AppData.FIELD_MARGIN;
 		this.placeholderDeck.y = AppData.FIELD_MARGIN;
@@ -69,22 +77,8 @@ export class Game {
 
 	start() {
 		console.log('Game::start');
-		// this.debugCard();
 		this.generateCards();
 		this.placeCardsToDeck();
-	}
-
-	debugCard() {
-		let card = new Card(Card.SPADES, 1);
-		card.x += 10;
-		card.y += 10;
-		card = new Card(Card.SPADES, 2);
-		card.x += 30;
-		card.y += 30;
-		card.z = 2;
-		card = new Card(Card.SPADES, 3);
-		card.x += 50;
-		card.y += 50;
 	}
 
 	generateCards() {
@@ -134,7 +128,8 @@ export class Game {
 			for (let t = i; t < 7; t++) {
 				const card = this.deck[--counter];
 				this.stacks[t][i] = card;
-				delay += 0.051;
+				// delay += 0.051;
+				delay += 0.001;
 				depth++;
 				const $depth = depth;
 				const $isColumnEnd = t == i;

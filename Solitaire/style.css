@@ -53,7 +53,7 @@ body{
 	height: 200px;
 	outline: 2px dashed rgb(171, 194, 183);
 	outline-offset: -5px;
-	pointer-events: none;
+	user-select:none;
 }
 
 .placeholder .bg{
@@ -85,6 +85,7 @@ body{
 	border: 4px solid rgb(125, 155, 140);
 	border-radius:10px;
 	background-color: #fff;
+	user-select: none;
 }
 
 .cardblack{
@@ -95,7 +96,7 @@ body{
 	color: #f70000;
 }
 
-.card .face .tl-corner{
+.tl-corner{
 	position: absolute;
 	font-size: 24px;
 	top:2px;
@@ -103,7 +104,7 @@ body{
 
 }
 
-.card .face .br-corner{
+.br-corner{
 	position: absolute;	
 	font-size: 24px;
 	top:164px;

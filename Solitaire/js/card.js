@@ -44,22 +44,46 @@ export class Card extends GameObject {
 		this.x = 0;
 		this.y = 0;
 
-		this.open();
-		// this.close();
+		this.startMovePos = { x: 0, y: 0 };
+		this.mm = null;
 
-		// this.view.addEventListener('mousedown', this.onMD);
+		this.isOpened = false;
+
+		// this.open();
+		this.close();
+
+		this.view.addEventListener('mouseup', (e) => this.onMU(e));
+		this.view.addEventListener('mousedown', (e) => this.onMD(e));
 	}
 
-	// onMD(e) {
-	// e.preventDefault();
-	// }
+	onMD(e) {
+		const dx = e.clientX - this.x;
+		const dy = e.clientY - this.y;
+		this.startMovePos.x = dx;
+		this.startMovePos.y = dy;
+		this.mm = (e) => this.onMM(e);
+		document.addEventListener('mousemove', this.mm);
+	}
+
+	onMM(e) {
+		let posx = e.clientX - this.startMovePos.x;
+		let posy = e.clientY - this.startMovePos.y;
+		this.x = posx;
+		this.y = posy;
+	}
+
+	onMU(e) {
+		document.removeEventListener('mousemove', this.mm);
+	}
 
 	open() {
+		this.isOpened = true;
 		this.face.style.display = 'block';
 		this.back.style.display = 'none';
 	}
 
 	close() {
+		this.isOpened = false;
 		this.face.style.display = 'none';
 		this.back.style.display = 'block';
 	}

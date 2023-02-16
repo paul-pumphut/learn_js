@@ -3,7 +3,6 @@ import { AppData } from "./app_data.js";
 import { AppModel } from "./app_model.js";
 import { Card } from "./card.js";
 import { Holder } from "./holder.js";
-import { SingletonA } from "./singleton_a.js";
 
 export class Game {
 
@@ -76,7 +75,7 @@ export class Game {
 	start() {
 		console.log('Game::start');
 		this.generateCards();
-		this.placeCardsToDeck();
+		this.drawCards();
 	}
 
 	generateCards() {
@@ -86,7 +85,8 @@ export class Game {
 		for (let i = 0; i < suits.length; i++) {
 			for (let t = 1; t <= 13; t++) {
 				const card = new Card(suits[i], t);
-				this.deck.pile.push(card);
+				this.deck.addCards(card);
+				card.holder = this.deck;
 			}
 		}
 
@@ -104,7 +104,7 @@ export class Game {
 		}
 	}
 
-	placeCardsToDeck() {
+	drawCards() {
 		console.log('placeCardsToDeck');
 		let shift = -10;
 		for (let i = 0; i < this.deck.pile.length; i++) {
@@ -122,7 +122,8 @@ export class Game {
 		for (let i = 0; i < 7; i++) {
 			for (let t = i; t < 7; t++) {
 				const card = this.deck.pile[--counter];
-				this.stacks[t].pile[i] = card;
+				this.stacks[t].addCards(card);
+				card.holder = this.stacks[t];
 				// delay += 0.051;
 				delay += 0.001;
 				depth++;

@@ -7,6 +7,8 @@ export class Card extends GameObject {
 	static HEARTS = '♥';
 	static DIAMONDS = '♦';
 
+	#holder;
+
 	constructor(suit, value) {
 		super();
 		// console.log('Card::ctor');
@@ -109,6 +111,10 @@ export class Card extends GameObject {
 
 	get code() {
 		return this.suit + this.name;
+	}
+
+	set holder(value) {
+		this.#holder = value;
 	}
 
 }

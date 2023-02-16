@@ -34,6 +34,14 @@ export class Holder extends GameObject {
 		document.body.appendChild(this.view);
 	}
 
+	addCards(cards) {
+		if (Array.isArray(cards)) {
+			this.pile.push(...cards);
+		}
+		else {
+			this.pile.push(cards);
+		}
+	}
 
 	get pile() {
 		return this.#model.pile;

@@ -46,6 +46,12 @@ body{
 	pointer-events: none;
 }
 
+.candidate{
+	height: 200px;
+	outline: 10px solid rgba(96, 245, 91, 0.5);
+	outline-offset: -10px;
+}
+
 .placeholder{
 	z-index: -150;
 	position: absolute;

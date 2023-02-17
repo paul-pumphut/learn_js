@@ -1,26 +1,27 @@
-import { AppData } from "./app_data.js";
 import { GameObject } from "./game_object.js";
-import { HolderModel } from "./holder_model.js";
 
 export class Holder extends GameObject {
 
 
-	#model;
+	#pile;
+	#bg;
 
 	constructor(initObj = null) {
 		super();
 		// console.log('Holder::ctor');
 
-		this.#model = new HolderModel();
+		this.#pile = [];
 
 		this.view = document.createElement('div');
 		this.view.classList.add('placeholder');
 
+
 		if (initObj && initObj.showBg) {
 
-			const bg = document.createElement('div');
-			bg.classList.add('bg');
-			this.view.appendChild(bg);
+			this.#bg = document.createElement('div');
+			this.#bg.classList.add('bg');
+			// this.#bg.classList.add('candidate');
+			this.view.appendChild(this.#bg);
 		}
 
 		if (initObj && initObj.symbol) {
@@ -43,8 +44,12 @@ export class Holder extends GameObject {
 		}
 	}
 
+	getTopCard() {
+		return this.#pile[this.#pile.length - 1];
+	}
+
 	get pile() {
-		return this.#model.pile;
+		return this.#pile;
 	}
 
 

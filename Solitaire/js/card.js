@@ -20,6 +20,8 @@ export class Card extends GameObject {
 		this.view = document.createElement('div');
 		this.view.classList.add('card');
 
+		// this.view.classList.add('candidate');
+
 		this.face = document.createElement('div');
 		this.face.classList.add('face');
 
@@ -61,6 +63,9 @@ export class Card extends GameObject {
 	}
 
 	onMD(e) {
+		if (!this.isOpened)
+			return;
+
 		this.z = 1000;
 		const dx = e.clientX - this.x;
 		const dy = e.clientY - this.y;
@@ -68,6 +73,8 @@ export class Card extends GameObject {
 		this.startMovePos.y = dy;
 		this.mm = (e) => this.onMM(e);
 		document.addEventListener('mousemove', this.mm);
+
+		Game.inst.calculateCandidates(this);
 	}
 
 	onMM(e) {
@@ -79,7 +86,7 @@ export class Card extends GameObject {
 
 	onMU(e) {
 		document.removeEventListener('mousemove', this.mm);
-		this.returnCardBack();
+		Game.inst.acceptOrRejectCard(this);
 	}
 
 	open() {
@@ -96,12 +103,11 @@ export class Card extends GameObject {
 
 
 	returnCardBack() {
-		this.z = -100 + this.#holder.pile.length;
 		console.log("returnCardBack:", this.z);
 		gsap.to(this,
 			{
 				x: this.#holder.x, y: this.#holder.y + AppData.COLUMN_GAP * (this.#holder.pile.length - 1),
-				duration: 0.5,
+				duration: 0.25,
 				onComplete: () => Game.inst.zsortCards()
 			});
 	}

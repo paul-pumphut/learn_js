@@ -1,4 +1,5 @@
 import { GameObject } from "./game_object.js";
+import { Game } from "./game.js";
 
 export class Holder extends GameObject {
 
@@ -26,6 +27,8 @@ export class Holder extends GameObject {
 		this.view = document.createElement('div');
 		this.view.classList.add('placeholder');
 
+		if (this.#isDeck)
+			this.view.addEventListener('click', (e) => this.onDeckClick(e));
 
 		if (initObj && initObj.showBg) {
 
@@ -46,6 +49,20 @@ export class Holder extends GameObject {
 		document.body.appendChild(this.view);
 	}
 
+	onDeckClick(e) {
+		if (this.#pile.length > 0)
+			return;
+
+		if (Game.inst.discard.pile.length == 0)
+			return;
+
+		const discardPile = Game.inst.discard.pile;
+		let i = discardPile.length;
+		while (i--) {
+			discardPile[i].moveCardToDeck();
+		}
+	}
+
 	highlightAsCandidate() {
 		this.#bg.classList.add('candidate');
 	}
@@ -55,6 +72,7 @@ export class Holder extends GameObject {
 	}
 
 	addCards(cards) {
+		if (!cards) return;
 		if (Array.isArray(cards)) {
 			for (let i = 0; i < cards.length; i++) {
 				this.#pile.push(cards[i]);
@@ -68,6 +86,7 @@ export class Holder extends GameObject {
 	}
 
 	removeCards(cards) {
+		if (!cards) return;
 		let list = null;
 		if (Array.isArray(cards))
 			list = cards;
@@ -97,12 +116,25 @@ export class Holder extends GameObject {
 		return card == topCard;
 	}
 
-	get pile() {
-		return this.#pile;
+	getSequenceFrom(card) {
+		const idx = this.#pile.indexOf(card);
+		const s = [];
+		for (let i = idx + 1; i < this.#pile.length; i++) {
+			s.push(this.#pile[i]);
+		}
+		return s;
 	}
 
 	getCardsNum() {
 		return this.#pile.length;
+	}
+
+	getCardIndex(card) {
+		return this.#pile.indexOf(card);
+	}
+
+	get pile() {
+		return this.#pile;
 	}
 
 	get isDeck() {

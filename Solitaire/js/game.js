@@ -10,8 +10,9 @@ export class Game {
 	#discard;
 	#lz;
 	#stacks;
-
 	#lzCandidates;
+
+	#winPopup;
 
 	constructor(seal) {
 		if (!(seal instanceof SingletonSeal))
@@ -25,7 +26,11 @@ export class Game {
 	}
 
 	initialize() {
-		console.log('Game::initialize');
+		// console.log('Game::initialize');
+
+		this.#winPopup = document.querySelector('.win');
+		this.#winPopup.parentElement.removeChild(this.#winPopup);
+
 		this.#deck = null;
 		this.#discard = null;
 		this.#lz = [];
@@ -35,9 +40,14 @@ export class Game {
 		this.#start();
 	}
 
+	#showGameWin() {
+		this.#winPopup.innerHTML = '<h1>Вы победили!<br>Пасьянс сложился!</h1>'
+		document.body.appendChild(this.#winPopup);
+	}
+
 	#init() {
 
-		this.#deck = new Holder({ isDeck: true });
+		this.#deck = new Holder({ isDeck: true, symbol: '+' });
 		this.#deck.x = AppData.FIELD_MARGIN;
 		this.#deck.y = AppData.FIELD_MARGIN;
 
@@ -51,7 +61,7 @@ export class Game {
 		}
 
 		for (let i = 0; i < AppData.COLUMN_NUMS; i++) {
-			const stack = new Holder({ showBg: true, symbol: '+' });
+			const stack = new Holder({ showBg: true, symbol: 'K' });
 			this.#stacks.push(stack);
 		}
 
@@ -69,6 +79,12 @@ export class Game {
 			const p = this.#lz[i];
 			p.y = AppData.FIELD_MARGIN;
 			p.x = AppData.WINDOW_WIDTH - AppData.FIELD_MARGIN - p.width * (i + 1) - AppData.PLACEHOLDERS_GAP * i;
+
+			for (let t = 0; t < this.#lz[i].pile.length; t++) {
+				const card = this.#lz[i].pile[t];
+				card.x = p.x;
+				card.y = p.y;
+			}
 		}
 
 		// layout S-placeholders
@@ -80,24 +96,34 @@ export class Game {
 			const p = this.#stacks[i];
 			p.x = margin + p.width * i + gap * i;
 			p.y = AppData.FIELD_MARGIN + AppData.CARD_SIZE.height + AppData.PLACEHOLDERS_GAP * 2;
+
+			for (let t = 0; t < this.#stacks[i].pile.length; t++) {
+				const card = this.#stacks[i].pile[t];
+				card.x = p.x;
+				card.y = p.y + AppData.COLUMN_GAP * t;
+			}
+
 		}
 
-		// TODO: resize for cards + flying cards
+
+
 	}
 
 	#start() {
-		console.log('Game::start');
+		// console.log('Game::start');
 		this.#generateCards();
-		// this.#shuffleCards();
+		this.#shuffleCards();
 		this.zsortCards();
 		this.#drawCards();
 	}
 
 	#generateCards() {
-		console.log('generateCards');
+		// console.log('generateCards');
 		const suits = [Card.SPADES, Card.CLUBS, Card.DIAMONDS, Card.HEARTS];
+		// const suits = [Card.SPADES, Card.HEARTS];
 		for (let i = 0; i < suits.length; i++) {
 			for (let t = 1; t <= 13; t++) {
+				// for (let t = 1; t <= 4; t++) {
 				const card = new Card(suits[i], t);
 				this.#deck.addCards(card);
 			}
@@ -113,7 +139,7 @@ export class Game {
 	}
 
 	#drawCards() {
-		console.log('placeCardsTo#deck');
+		// console.log('placeCardsTo#deck');
 		let shift = -10;
 		for (let i = 0; i < this.#deck.pile.length; i++) {
 			const card = this.#deck.pile[i];
@@ -128,12 +154,14 @@ export class Game {
 		let depth = -100;
 
 		for (let i = 0; i < 7; i++) {
-			// for (let t = i; t < 7; t++) {
-			for (let t = i; t < 4; t++) {
+			for (let t = i; t < 7; t++) {
+				// for (let i = 0; i < 3; i++) {
+				// for (let t = i; t < 3; t++) {
 				const card = this.#deck.pile[--counter];
+				this.#deck.removeCards(card);
 				this.#stacks[t].addCards(card);
-				// delay += 0.051;
-				delay += 0.001;
+				delay += 0.081;
+				// delay += 0.001;
 				depth++;
 				const $depth = depth;
 				const $isColumnEnd = t == i;
@@ -143,11 +171,13 @@ export class Game {
 						duration: 0.5,
 						delay: delay,
 						onUpdate: () => { if (g.totalProgress() > 0.3) card.z = $depth; if (g.totalProgress() > 0.5 && $isColumnEnd) card.open(); },
-						onComplete: () => { console.log(card.code, $depth) }
+						onComplete: () => {
+							//console.log(card.code, $depth) 
+						}
 					});
 			}
 		}
-		console.dir(this.#stacks);
+		// console.dir(this.#stacks);
 	}
 
 	zsortCards() {
@@ -183,11 +213,15 @@ export class Game {
 	calculateCandidates(card) {
 		this.#lzCandidates = [];
 		// ask ace-holders
-		for (let i = 0; i < this.#lz.length; i++) {
-			let topCard = this.#lz[i].getTopCard();
-			console.log(topCard);
-			if (!topCard && card.value == 1 || topCard && card.possibleCollectTo(topCard))
-				this.#lzCandidates.push(this.#lz[i]);
+
+		if (!card.sequence) {
+			// card with sequence cannot be placed on LZ
+			for (let i = 0; i < this.#lz.length; i++) {
+				let topCard = this.#lz[i].getTopCard();
+				// console.log(topCard);
+				if (!topCard && card.value == 1 || topCard && card.possibleCollectTo(topCard))
+					this.#lzCandidates.push(this.#lz[i]);
+			}
 		}
 
 		// ask #stacks
@@ -230,19 +264,37 @@ export class Game {
 				holder = zone;
 
 			let currentHolder = card.holder;
-			card.holder.removeCards(card);
+			currentHolder.removeCards(card);
+			currentHolder.removeCards(card.sequence);
 			currentHolder.openTopCard();
 			holder.addCards(card);
+			holder.addCards(card.sequence);
 
 		}
 		card.returnCardToLZ();
-
 
 		// remove highlight
 		for (let i = 0; i < this.#lzCandidates.length; i++) {
 			this.#lzCandidates[i].removeHighlight();
 		}
 
+		this.#checkGameEnd();
+
+	}
+
+	#checkGameEnd() {
+		// console.log('--- END:', this.#deck.pile.length, this.#discard.pile.length, this.#stacks.reduce((acc, value) => value.pile.length + acc, 0))
+		if (
+			this.#deck.pile.length == 0 &&
+			this.#discard.pile.length == 0 &&
+			this.#stacks.reduce((acc, value) => value.pile.length + acc, 0) == 0
+		) {
+			this.#showGameWin();
+		}
+	}
+
+	get deck() {
+		return this.#deck;
 	}
 
 	get discard() {

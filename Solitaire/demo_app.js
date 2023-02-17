@@ -1,5 +1,5 @@
 const init = () => {
-	console.log('init');
+	// console.log('init');
 
 	const canvas = document.querySelector('.canvas');
 	const card = document.querySelector('.card');
@@ -11,24 +11,24 @@ const init = () => {
 	const startMovePos = { x: 0, y: 0 };
 
 	const onResize = (e) => {
-		console.log('resize')
+		// console.log('resize')
 	}
 
 	window.addEventListener('resize', onResize);
 
 
 	const onMD = (e) => {
-		console.log("MD:", e);
+		// console.log("MD:", e);
 		startMovePos.x = e.offsetX;
 		startMovePos.y = e.offsetY;
 		document.addEventListener('mousemove', onMM);
 		document.addEventListener('mouseup', onMU);
-		console.dir(document);
-		console.dir(window);
+		// console.dir(document);
+		// console.dir(window);
 	}
 
 	const onMU = (e) => {
-		console.log("MU:", e);
+		// console.log("MU:", e);
 		document.removeEventListener('mousemove', onMM);
 		document.removeEventListener('mouseup', onMU);
 	}

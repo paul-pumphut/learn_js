@@ -12,6 +12,7 @@ export class Card extends GameObject {
 	#holder;
 	#suit;
 	#value;
+	#sequence;
 
 	#isMD;
 
@@ -97,6 +98,15 @@ export class Card extends GameObject {
 		let posy = e.clientY - this.startMovePos.y;
 		this.x = posx;
 		this.y = posy;
+
+		if (this.#sequence && this.#sequence.length > 0) {
+			for (let i = 0; i < this.#sequence.length; i++) {
+				const c = this.#sequence[i];
+				c.x = this.x;
+				c.y = this.y + 40 * (i + 1);
+				c.z = this.z + i + 1;
+			}
+		}
 	}
 
 	onMU(e) {
@@ -107,6 +117,7 @@ export class Card extends GameObject {
 		document.removeEventListener('mousemove', this.$mm);
 		document.removeEventListener('mouseup', this.$dmu);
 		Game.inst.acceptOrRejectCard(this);
+		this.#sequence = null;
 	}
 
 	possibleToInteractWith() {
@@ -117,8 +128,13 @@ export class Card extends GameObject {
 			return false;
 		}
 
-		if (!this.#holder.isTopCard(this))
+		if (!this.#holder.isTopCard(this)) {
+			this.#sequence = this.#holder.getSequenceFrom(this);
+			// console.log(this.#sequence);
+			if (this.#sequence.length > 0)
+				return true;
 			return false;
+		}
 
 		return true;
 	}
@@ -160,12 +176,25 @@ export class Card extends GameObject {
 				});
 		}
 		else {
+			const idx = this.#holder.getCardIndex(this);
 			gsap.to(this,
 				{
-					x: this.#holder.x, y: this.#holder.y + AppData.COLUMN_GAP * (this.#holder.pile.length - 1),
+					x: this.#holder.x, y: this.#holder.y + AppData.COLUMN_GAP * idx,
 					duration: 0.25,
 					onComplete: () => Game.inst.zsortCards()
 				});
+
+			if (this.#sequence && this.#sequence.length > 0) {
+				for (let i = 0; i < this.#sequence.length; i++) {
+					gsap.to(this.#sequence[i],
+						{
+							x: this.#holder.x, y: this.#holder.y + AppData.COLUMN_GAP * (idx + i + 1),
+							duration: 0.25, delay: 0.1 * (i + 1),
+							onComplete: () => Game.inst.zsortCards()
+						});
+
+				}
+			}
 		}
 	}
 
@@ -181,9 +210,21 @@ export class Card extends GameObject {
 			});
 	}
 
+	moveCardToDeck() {
+		this.#holder.removeCards(this);
+		Game.inst.deck.addCards(this);
+		const g = gsap.to(this,
+			{
+				x: this.#holder.x, y: this.#holder.y,
+				duration: 0.25,
+				onUpdate: () => { if (g.totalProgress() > 0.5) this.z = this.#holder.getCardsNum(); this.close(); },
+				onComplete: () => Game.inst.zsortCards()
+			});
+	}
+
 	//------------------------- checks -------------------------
 	possibleCollectTo(card) {
-		console.log(this.#suit, card.suit, this.#value, card.value)
+		// console.log(this.#suit, card.suit, this.#value, card.value)
 		return this.#suit == card.suit && this.#value == card.value + 1;
 	}
 
@@ -231,4 +272,7 @@ export class Card extends GameObject {
 		return this.#holder;
 	}
 
+	get sequence() {
+		return this.#sequence;
+	}
 }

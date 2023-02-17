@@ -10,12 +10,16 @@ export class Card extends GameObject {
 	static DIAMONDS = '♦';
 
 	#holder;
+	#suit;
+	#value;
+
+	#isMD;
 
 	constructor(suit, value) {
 		super();
 		// console.log('Card::ctor');
-		this.suit = suit;
-		this.value = value;
+		this.#suit = suit;
+		this.#value = value;
 
 		this.view = document.createElement('div');
 		this.view.classList.add('card');
@@ -25,18 +29,18 @@ export class Card extends GameObject {
 		this.face = document.createElement('div');
 		this.face.classList.add('face');
 
-		this.face.classList.add(this.isRed() ? 'cardred' : 'cardblack');
+		this.face.classList.add(this.isRed ? 'cardred' : 'cardblack');
 
 		this.face.innerHTML = `<div class="tl-corner">
 								${this.code}
 							</div>
 							<div class="center_under">
-								${this.suit}
+								${this.#suit}
 							</div>
-							<div class="center ${this.value == 10 ? 'center10' : 'center1'}">
+							<div class="center ${this.#value == 10 ? 'center10' : 'center1'}">
 								${this.name}
 							</div>
-							<div class="br-corner ${this.value == 10 ? 'br-corner10' : 'br-corner1'}">
+							<div class="br-corner ${this.#value == 10 ? 'br-corner10' : 'br-corner1'}">
 								${this.code}
 							</div>`;
 
@@ -51,7 +55,9 @@ export class Card extends GameObject {
 		this.y = 0;
 
 		this.startMovePos = { x: 0, y: 0 };
-		this.mm = null;
+
+		this.$mm = null;
+		this.$dmu = null;
 
 		this.isOpened = false;
 
@@ -63,16 +69,20 @@ export class Card extends GameObject {
 	}
 
 	onMD(e) {
-		if (!this.isOpened)
+		if (!this.possibleToInteractWith())
 			return;
+
+		this.#isMD = true;
 
 		this.z = 1000;
 		const dx = e.clientX - this.x;
 		const dy = e.clientY - this.y;
 		this.startMovePos.x = dx;
 		this.startMovePos.y = dy;
-		this.mm = (e) => this.onMM(e);
-		document.addEventListener('mousemove', this.mm);
+		this.$mm = (e) => this.onMM(e);
+		this.$dmu = (e) => this.onMU(e);
+		document.addEventListener('mousemove', this.$mm);
+		document.addEventListener('mouseup', this.$dmu);
 
 		Game.inst.calculateCandidates(this);
 	}
@@ -85,8 +95,23 @@ export class Card extends GameObject {
 	}
 
 	onMU(e) {
-		document.removeEventListener('mousemove', this.mm);
+		if (!this.#isMD) return;
+
+		this.#isMD = false;
+
+		document.removeEventListener('mousemove', this.$mm);
+		document.removeEventListener('mouseup', this.$dmu);
 		Game.inst.acceptOrRejectCard(this);
+	}
+
+	possibleToInteractWith() {
+		if (!this.isOpened)
+			return false;
+
+		if (!this.#holder.isTopCard(this))
+			return false;
+
+		return true;
 	}
 
 	open() {
@@ -101,9 +126,17 @@ export class Card extends GameObject {
 		this.back.style.display = 'block';
 	}
 
+	highlightAsCandidate() {
+		this.view.classList.add('candidate');
+	}
 
-	returnCardBack() {
-		console.log("returnCardBack:", this.z);
+	removeHighlight() {
+		this.view.classList.remove('candidate');
+	}
+
+
+	returnCardToLZ() {
+		// console.log("returnCardBack:", this.z);
 		gsap.to(this,
 			{
 				x: this.#holder.x, y: this.#holder.y + AppData.COLUMN_GAP * (this.#holder.pile.length - 1),
@@ -112,13 +145,26 @@ export class Card extends GameObject {
 			});
 	}
 
+	//------------------------- checks -------------------------
+	possibleCollectTo(card) {
+		return this.#suit == card.suit && this.#value == card.value + 1;
+	}
+
+	possibleLayDown(card) {
+		return this.isOpened && card.isOpened && (this.isRed && !card.isRed || !this.isRed && card.isRed) && this.#value == card.value - 1;
+	}
+
 	//--------------------------------------- g/s -------------------------------------------------
-	isRed() {
-		return this.suit == Card.HEARTS || this.suit == Card.DIAMONDS;
+	get isRed() {
+		return this.#suit == Card.HEARTS || this.#suit == Card.DIAMONDS;
+	}
+
+	get value() {
+		return this.#value;
 	}
 
 	get name() {
-		switch (this.value) {
+		switch (this.#value) {
 			case 1:
 				return 'A';
 			case 11:
@@ -128,16 +174,20 @@ export class Card extends GameObject {
 			case 13:
 				return 'K';
 			default:
-				return `${this.value}`;
+				return `${this.#value}`;
 		}
 	}
 
 	get code() {
-		return this.suit + this.name;
+		return this.#suit + this.name;
 	}
 
 	set holder(value) {
 		this.#holder = value;
+	}
+
+	get holder() {
+		return this.#holder;
 	}
 
 }

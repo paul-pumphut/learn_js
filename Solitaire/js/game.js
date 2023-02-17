@@ -100,7 +100,6 @@ export class Game {
 			for (let t = 1; t <= 13; t++) {
 				const card = new Card(suits[i], t);
 				this.#deck.addCards(card);
-				card.holder = this.#deck;
 			}
 		}
 	}
@@ -129,10 +128,10 @@ export class Game {
 		let depth = -100;
 
 		for (let i = 0; i < 7; i++) {
-			for (let t = i; t < 7; t++) {
+			// for (let t = i; t < 7; t++) {
+			for (let t = i; t < 4; t++) {
 				const card = this.#deck.pile[--counter];
 				this.#stacks[t].addCards(card);
-				card.holder = this.#stacks[t];
 				// delay += 0.051;
 				delay += 0.001;
 				depth++;
@@ -175,14 +174,65 @@ export class Game {
 		this.#lzCandidates = [];
 		// ask ace-holders
 		for (let i = 0; i < this.#lz.length; i++) {
-			const topCard = this.#lz[i].getTopCard();
+			let topCard = this.#lz[i].getTopCard();
+
+			if (!topCard && card.value == 1 || topCard && card.possibleCollectTo(topCard))
+				this.#lzCandidates.push(this.#lz[i]);
 		}
 
 		// ask #stacks
+		for (let i = 0; i < this.#stacks.length; i++) {
+			let topCard = this.#stacks[i].getTopCard();
+			if (topCard && card.possibleLayDown(topCard)) {
+				this.#lzCandidates.push(topCard);
+			}
+			else
+				if (!topCard && card.value == 13) {
+					this.#lzCandidates.push(this.#stacks[i]);
+				}
+		}
+
+		// highlight
+		for (let i = 0; i < this.#lzCandidates.length; i++) {
+			this.#lzCandidates[i].highlightAsCandidate();
+		}
 	}
 
 	acceptOrRejectCard(card) {
-		card.returnCardBack();
+		// console.log('card POS:', card.x, card.y);
+		// check card distance to candidate
+		let zone = null;
+		for (let i = 0; i < this.#lzCandidates.length; i++) {
+			const candidate = this.#lzCandidates[i];
+			const dx = candidate.x - card.x;
+			const dy = candidate.y - card.y;
+			if (Math.sqrt(dx * dx + dy * dy) < 80) {
+				zone = candidate;
+				break;
+			}
+		}
+
+		if (zone) {
+			let holder = null;
+			if (zone instanceof Card)
+				holder = zone.holder;
+			else
+				holder = zone;
+
+			let currentHolder = card.holder;
+			card.holder.removeCards(card);
+			currentHolder.openTopCard();
+			holder.addCards(card);
+
+		}
+		card.returnCardToLZ();
+
+
+		// remove highlight
+		for (let i = 0; i < this.#lzCandidates.length; i++) {
+			this.#lzCandidates[i].removeHighlight();
+		}
+
 	}
 }
 

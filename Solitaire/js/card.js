@@ -72,6 +72,11 @@ export class Card extends GameObject {
 		if (!this.possibleToInteractWith())
 			return;
 
+		if (this.isCardInDeck()) {
+			this.moveCardToDiscard();
+			return;
+		}
+
 		this.#isMD = true;
 
 		this.z = 1000;
@@ -105,13 +110,21 @@ export class Card extends GameObject {
 	}
 
 	possibleToInteractWith() {
-		if (!this.isOpened)
+		if (!this.isOpened) {
+			if (this.isCardInDeck()) {
+				return true;
+			}
 			return false;
+		}
 
 		if (!this.#holder.isTopCard(this))
 			return false;
 
 		return true;
+	}
+
+	isCardInDeck() {
+		return this.#holder.isDeck;
 	}
 
 	open() {
@@ -136,17 +149,41 @@ export class Card extends GameObject {
 
 
 	returnCardToLZ() {
-		// console.log("returnCardBack:", this.z);
-		gsap.to(this,
+		// console.log("returnCardToLZ:", this.#holder.isDiscard);
+		// console.dir(this.#holder);
+		if (this.#holder.isDiscard || this.#holder.isAcePile) {
+			gsap.to(this,
+				{
+					x: this.#holder.x, y: this.#holder.y,
+					duration: 0.25,
+					onComplete: () => Game.inst.zsortCards()
+				});
+		}
+		else {
+			gsap.to(this,
+				{
+					x: this.#holder.x, y: this.#holder.y + AppData.COLUMN_GAP * (this.#holder.pile.length - 1),
+					duration: 0.25,
+					onComplete: () => Game.inst.zsortCards()
+				});
+		}
+	}
+
+	moveCardToDiscard() {
+		this.#holder.removeCards(this);
+		Game.inst.discard.addCards(this);
+		const g = gsap.to(this,
 			{
-				x: this.#holder.x, y: this.#holder.y + AppData.COLUMN_GAP * (this.#holder.pile.length - 1),
+				x: this.#holder.x, y: this.#holder.y,
 				duration: 0.25,
+				onUpdate: () => { if (g.totalProgress() > 0.5) this.z = this.#holder.getCardsNum(); this.open(); },
 				onComplete: () => Game.inst.zsortCards()
 			});
 	}
 
 	//------------------------- checks -------------------------
 	possibleCollectTo(card) {
+		console.log(this.#suit, card.suit, this.#value, card.value)
 		return this.#suit == card.suit && this.#value == card.value + 1;
 	}
 
@@ -161,6 +198,10 @@ export class Card extends GameObject {
 
 	get value() {
 		return this.#value;
+	}
+
+	get suit() {
+		return this.#suit;
 	}
 
 	get name() {

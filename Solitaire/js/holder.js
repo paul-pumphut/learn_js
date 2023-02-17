@@ -2,13 +2,24 @@ import { GameObject } from "./game_object.js";
 
 export class Holder extends GameObject {
 
-
+	#isDeck;
+	#isDiscard;
+	#isAcePile;
 	#pile;
 	#bg;
 
 	constructor(initObj = null) {
 		super();
 		// console.log('Holder::ctor');
+
+		if (initObj && initObj.isDeck)
+			this.#isDeck = true;
+
+		if (initObj && initObj.isDiscard)
+			this.#isDiscard = true;
+
+		if (initObj && initObj.isAcePile)
+			this.#isAcePile = true;
 
 		this.#pile = [];
 
@@ -90,5 +101,20 @@ export class Holder extends GameObject {
 		return this.#pile;
 	}
 
+	getCardsNum() {
+		return this.#pile.length;
+	}
+
+	get isDeck() {
+		return this.#isDeck;
+	}
+
+	get isDiscard() {
+		return this.#isDiscard;
+	}
+
+	get isAcePile() {
+		return this.#isAcePile;
+	}
 
 }

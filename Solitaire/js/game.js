@@ -37,16 +37,16 @@ export class Game {
 
 	#init() {
 
-		this.#deck = new Holder();
+		this.#deck = new Holder({ isDeck: true });
 		this.#deck.x = AppData.FIELD_MARGIN;
 		this.#deck.y = AppData.FIELD_MARGIN;
 
-		this.#discard = new Holder({ showBg: true });
+		this.#discard = new Holder({ isDiscard: true, showBg: true });
 		this.#discard.x = this.#deck.x + this.#deck.width + AppData.PLACEHOLDERS_GAP;
 		this.#discard.y = AppData.FIELD_MARGIN;
 
 		for (let i = 0; i < AppData.LZ_NUMS; i++) {
-			const aceHolder = new Holder({ showBg: true, symbol: 'A' });
+			const aceHolder = new Holder({ isAcePile: true, showBg: true, symbol: 'A' });
 			this.#lz.push(aceHolder);
 		}
 
@@ -157,9 +157,19 @@ export class Game {
 			card.z = i;
 		}
 
-		// sort pile
+		// sort discard
+		for (let i = 0; i < this.#discard.pile.length; i++) {
+			const card = this.#discard.pile[i];
+			card.z = i;
+		}
+
 
 		// sort aces piles
+		for (let i = 0; i < this.#lz.length; i++) {
+			for (let t = 0; t < this.#lz[i].pile.length; t++) {
+				this.#lz[i].pile[t].z = i * this.#lz.length + t;
+			}
+		}
 
 		// sort #stacks
 		for (let i = 0; i < this.#stacks.length; i++) {
@@ -175,7 +185,7 @@ export class Game {
 		// ask ace-holders
 		for (let i = 0; i < this.#lz.length; i++) {
 			let topCard = this.#lz[i].getTopCard();
-
+			console.log(topCard);
 			if (!topCard && card.value == 1 || topCard && card.possibleCollectTo(topCard))
 				this.#lzCandidates.push(this.#lz[i]);
 		}
@@ -233,6 +243,10 @@ export class Game {
 			this.#lzCandidates[i].removeHighlight();
 		}
 
+	}
+
+	get discard() {
+		return this.#discard;
 	}
 }
 

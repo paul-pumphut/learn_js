@@ -47,7 +47,7 @@ body{
 }
 
 .candidate{
-	outline: 5px solid rgba(96, 245, 91, 0.75);
+	outline: 10px solid rgba(96, 245, 91, 0.75);
 	outline-offset: 0px;
 	border-radius:5px;
 	

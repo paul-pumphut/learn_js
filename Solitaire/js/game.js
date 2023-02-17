@@ -1,28 +1,34 @@
-import { AppController } from "./app_controller.js";
 import { AppData } from "./app_data.js";
-import { AppModel } from "./app_model.js";
 import { Card } from "./card.js";
 import { Holder } from "./holder.js";
 
 export class Game {
 
-	constructor() {
-		console.log('Game::ctor');
+	static #inst;
 
+	constructor(seal) {
+		if (!(seal instanceof SingletonSeal))
+			throw new Error('Game cannot be instantiated!');
+	}
+
+	static get inst() {
+		if (!Game.#inst)
+			this.#inst = new Game(new SingletonSeal);
+		return Game.#inst;
+	}
+
+	initialize() {
+		console.log('Game::initialize');
 		this.deck = null;
 		this.pile = null;
 		this.aces = [];
 		this.stacks = [];
 
-		this.init();
+		this.#init();
+		this.#start();
 	}
 
-
-	init() {
-
-		AppModel.inst.initialize();
-		AppController.inst.initialize();
-
+	#init() {
 
 		this.deck = new Holder();
 		this.deck.x = AppData.FIELD_MARGIN;
@@ -44,10 +50,10 @@ export class Game {
 
 		window.addEventListener('resize', (e) => this.resize(e));
 
-		this.resize();
+		this.#resize();
 	}
 
-	resize() {
+	#resize() {
 		// console.log('window resize:', this);
 
 		AppData.WINDOW_WIDTH = Math.max(AppData.WINDOW_MIN_WIDTH, window.innerWidth);
@@ -72,13 +78,13 @@ export class Game {
 		// TODO: resize for cards + flying cards
 	}
 
-	start() {
+	#start() {
 		console.log('Game::start');
-		this.generateCards();
-		this.drawCards();
+		this.#generateCards();
+		this.#drawCards();
 	}
 
-	generateCards() {
+	#generateCards() {
 		console.log('generateCards');
 		const suits = [Card.SPADES, Card.CLUBS, Card.DIAMONDS, Card.HEARTS];
 		// create
@@ -104,7 +110,7 @@ export class Game {
 		}
 	}
 
-	drawCards() {
+	#drawCards() {
 		console.log('placeCardsToDeck');
 		let shift = -10;
 		for (let i = 0; i < this.deck.pile.length; i++) {
@@ -134,10 +140,20 @@ export class Game {
 						x: this.stacks[t].x, y: this.stacks[t].y + AppData.COLUMN_GAP * i,
 						duration: 0.5,
 						delay: delay,
-						onUpdate: () => { if (g.totalProgress() > 0.3) card.z = $depth; if (g.totalProgress() > 0.5 && $isColumnEnd) card.open(); }
+						onUpdate: () => { if (g.totalProgress() > 0.3) card.z = $depth; if (g.totalProgress() > 0.5 && $isColumnEnd) card.open(); },
+						onComplete: () => { console.log(card.code, $depth) }
 					});
 			}
 		}
 		console.dir(this.stacks);
 	}
+
+	zsortCards() {
+
+	}
+}
+
+
+class SingletonSeal {
+
 }

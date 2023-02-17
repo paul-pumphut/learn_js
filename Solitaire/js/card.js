@@ -1,3 +1,5 @@
+import { AppData } from "./app_data.js";
+import { Game } from "./game.js";
 import { GameObject } from "./game_object.js";
 
 export class Card extends GameObject {
@@ -59,6 +61,7 @@ export class Card extends GameObject {
 	}
 
 	onMD(e) {
+		this.z = 1000;
 		const dx = e.clientX - this.x;
 		const dy = e.clientY - this.y;
 		this.startMovePos.x = dx;
@@ -76,6 +79,7 @@ export class Card extends GameObject {
 
 	onMU(e) {
 		document.removeEventListener('mousemove', this.mm);
+		this.returnCardBack();
 	}
 
 	open() {
@@ -90,6 +94,19 @@ export class Card extends GameObject {
 		this.back.style.display = 'block';
 	}
 
+
+	returnCardBack() {
+		this.z = -100 + this.#holder.pile.length;
+		console.log("returnCardBack:", this.z);
+		gsap.to(this,
+			{
+				x: this.#holder.x, y: this.#holder.y + AppData.COLUMN_GAP * (this.#holder.pile.length - 1),
+				duration: 0.5,
+				onComplete: () => Game.inst.zsortCards()
+			});
+	}
+
+	//--------------------------------------- g/s -------------------------------------------------
 	isRed() {
 		return this.suit == Card.HEARTS || this.suit == Card.DIAMONDS;
 	}

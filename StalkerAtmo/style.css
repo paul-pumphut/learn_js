@@ -1,0 +1,64 @@
+*{
+	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+
+body{
+	background-image: url('bg.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	background-size: cover;
+
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.wrapper{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+h1{
+	
+	font-size: 40px;
+	letter-spacing: 5px;
+	text-align: center;
+	color: rgb(207, 170, 121);
+	margin: 10px;
+}
+
+p{
+	text-align: center;
+	color: rgb(172, 155, 134);
+	font-size: 20px;
+}
+
+button{
+	font-size: 20px;
+	background-color: rgb(85, 50, 9, 0.25);
+	border: 0.1px solid rgb(85, 50, 9, 0.75);;
+	padding: 10px;
+	color: rgb(207, 170, 121);
+	width: 100px;
+}
+
+button:hover{
+	background-color: rgb(85, 50, 9, 0.45);
+}
+button:active{
+	background-color: rgb(85, 50, 9, 1);
+}
+
+.spectr{
+	opacity: 75%;
+	height: 40px;
+}

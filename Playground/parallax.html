@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+
+		body{
+			overflow: hidden;
+			background-color: #7f7f7f;
+			--card_width:171px;
+			--card-height:238px;
+		}
+
+
+
+		.container{
+			position: absolute;
+			perspective: 400px;
+			top: 200px;
+			left: 200px;
+			width: var(--card_width);
+			height: var(--card-height);
+			/* transform: translate(-50%,-50%); */
+			/* background-color: #0f0; */
+		}
+
+		.wrapper{
+			user-select: none;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: var(--card_width);
+			height: var(--card-height);
+			/* background-color: rgba(255, 0, 0, 0.342); */
+			background-image: url('img/ace_card.png');
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			/* transition: all 0.5s; */
+		}
+
+		.container:hover .wrapper{
+			transform-style: preserve-3d;
+			/* transform: rotateY(80deg); */
+			/* transform: rotateZ(45deg); */
+			/* animation: name duration timing-function delay iteration-count direction fill-mode; */
+			animation: rot45 1s linear;
+			animation-fill-mode: forwards;
+		}
+
+		@keyframes rot45 {
+			24%{
+				/* background-color: rgba(255, 0, 0, 0.342); */
+				background-image: url('img/ace_card.png');
+			}
+
+			25%{
+				/* background-color: #00f; */
+				background-image: url('img/ace_card_back.png');
+			}
+
+			50%{
+				transform: rotateY(180deg);
+				/* background-color: #00f; */
+				background-image: url('img/ace_card_back.png');
+			}
+
+			74%{
+				/* background-color: rgba(255, 0, 0, 0.342); */
+				background-image: url('img/ace_card_back.png');
+			}
+
+			75%{
+				/* background-color: #00f; */
+				background-image: url('img/ace_card.png');
+			}
+
+			to{
+				transform: rotateY(0deg);
+				/* background-color: #00f; */
+				background-image: url('img/ace_card.png');
+			}
+
+
+
+
+
+		}
+
+	</style>
+	<div class="container">
+		<div class="wrapper">
+		</div>
+	</div>
+</body>
+</html>

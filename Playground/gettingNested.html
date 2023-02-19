@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		
+	let data =
+	{
+		born: "Нью-Йорк",
+		params: {
+			strength: 80,
+			endurance: 60,
+			constitution: 66170,
+			agility: 701
+		},
+		stats: {
+			sanity: 50,
+			luck: 45,
+			hp: 12,
+			mana: 10,
+			agility: {
+				s:775,
+				agility2:777
+			}
+		},
+		skills: {
+			antropology: 1,
+			archeology: 1,
+			melee: 6066
+		}
+	}
+	
+	Object.prototype.getNProperty = function(prop){
+		for(let p in this){
+			if(p == prop){
+				return this[p];
+			}
+			else{
+				const temp = this[p];
+				if (typeof temp == 'object'){
+					const value = temp.getNProperty(prop);
+					if(value)
+						return value;
+				}
+			}
+		}
+	};
+
+	Object.prototype.setNProperty = function(prop, value){
+		for(let p in this){
+			if(p == prop){
+				this[p] = value;
+			}
+			else{
+				const temp = this[p];
+				if (typeof temp == 'object'){
+					temp.setNProperty(prop, value);
+				}
+			}
+		}
+	};
+
+	console.log('A::',data.getNProperty('agility'));
+	data.setNProperty('agility', 13);
+	console.log('C::',data.getNProperty('agility'));
+
+
+	</script>
+</body>
+</html>

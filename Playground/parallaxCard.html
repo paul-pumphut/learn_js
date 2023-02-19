@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<style>
+		:root{
+			--picture_width:800px;
+			--picture_height:370px;
+			--picture-content-width:400px;
+			--picture-content-height:25px;
+		}
+
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+
+		body{
+			overflow: hidden;
+			background-color: #454d63;
+		}
+
+
+		.picture{
+			position: absolute;
+			width: var(--picture_width);
+			height: var(--picture_height);
+			border: 3px solid #4086c0;
+			border-radius: 20px;
+			overflow: hidden;
+			left:50vw;
+			top:50vh;
+			perspective: 400px;
+			transform: translate(-50%,-50%);
+		}
+
+		.picture-left{
+			position: absolute;
+			background-color: rgba(255, 0, 0, 0.5);
+			width: calc(var(--picture_width)/2);
+			height: var(--picture_height);
+		}
+
+		.picture-right{
+			position: absolute;
+			background-color: rgba(0, 255, 0, 0.5);
+			left: calc(var(--picture_width)/2);
+			width: calc(var(--picture_width)/2);
+			height: var(--picture_height);
+		}
+
+		p{
+			text-align: center;
+			color: aqua;
+			font-size: 40px;
+		}
+
+		.picture-content{
+			position: absolute;
+			left: calc(var(--picture-content-width)/2 * -1);
+			top:calc(var(--picture-content-height)/2 * -1);
+			/* background-color: rgba(132, 0, 255, 0.35); */
+			width: calc(var(--picture_width) + var(--picture-content-width));
+			height: calc(var(--picture_height) + var(--picture-content-height) * 2);
+			pointer-events: none;
+			transition: all 0.75s;
+			transform-style: preserve-3d;
+		}
+		
+		.picture-content > *{
+			background-repeat:no-repeat;
+			background-size: 100% 100%;
+			transition: all 0.5s;
+		}
+
+		.picture-sky{
+			position: absolute;
+			background-image: url('img/prlx1/sky.png');
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+		}
+
+		.picture-content__clouds{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-image: url('img/prlx1/clouds.png');
+		}
+
+		.picture-content__buildings{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-image: url('img/prlx1/buildings.png');
+		}
+
+		.picture-content__trees{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-image: url('img/prlx1/trees.png');
+		}
+		
+		.picture-content__chair{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-image: url('img/prlx1/chair.png');
+		}
+		
+		.picture-content__latterns{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-image: url('img/prlx1/latterns.png');
+		}		
+
+		.picture-content__road{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-image: url('img/prlx1/road.png');
+		}
+
+		.picture-content__ground{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-image: url('img/prlx1/ground.png');
+		}
+
+		.picture-left:hover ~ .picture-content{
+			transform: rotateY(-10deg);
+		}
+
+		.picture-right:hover ~ .picture-content{
+			transform: rotateY(10deg);
+		}
+
+
+		.picture-left:hover ~ .picture-content > .picture-content__buildings{
+			transform: translate(9px, 0);
+		}
+
+		.picture-right:hover ~ .picture-content > .picture-content__buildings{
+			transform: translate(-9px, 0);
+		}
+
+		.picture-left:hover ~ .picture-content > .picture-content__ground{
+			transform: translate(10px, 0);
+		}
+
+		.picture-right:hover ~ .picture-content > .picture-content__ground{
+			transform: translate(-10px, 0);
+		}
+
+
+		.picture-left:hover ~ .picture-content > .picture-content__trees{
+			transform: translate(40px, 0);
+		}
+
+		.picture-right:hover ~ .picture-content > .picture-content__trees{
+			transform: translate(-40px, 0);
+		}	
+
+
+		.picture-left:hover ~ .picture-content > .picture-content__road{
+			transform: translate(17px, 0);
+		}
+
+		.picture-right:hover ~ .picture-content > .picture-content__road{
+			transform: translate(-17px, 0);
+		}	
+
+		.picture-left:hover ~ .picture-content > .picture-content__chair{
+			transform: translate(15px, 0);
+		}
+
+		.picture-right:hover ~ .picture-content > .picture-content__chair{
+			transform: translate(-15px, 0);
+		}	
+
+
+		.picture-left:hover ~ .picture-content > .picture-content__latterns{
+			transform: translate(50px, 0);
+		}
+
+		.picture-right:hover ~ .picture-content > .picture-content__latterns{
+			transform: translate(-50px, 0);
+		}		
+
+
+	</style>
+
+	<div class="picture">
+		<div class="picture-left">
+		<p>Left</p>
+	</div>
+	<div class="picture-right">
+		<p>Right</p>
+	</div>
+	<div class="picture-sky"></div>
+	<div class="picture-content">
+		<div class="picture-content__clouds"></div>
+		<div class="picture-content__buildings"></div>
+		<div class="picture-content__ground"></div>
+		<div class="picture-content__road"></div>
+		<div class="picture-content__trees"></div>
+		<div class="picture-content__chair"></div>
+		<div class="picture-content__latterns"></div>
+	</div>
+</div>
+
+</body>
+</html>

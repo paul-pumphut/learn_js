@@ -1,0 +1,9 @@
+{
+	"key1":"test",
+	"key2":"test",
+	"key3":"test",
+	"key4":"test",
+	"key5":[1,2,3,4,5],
+
+	"exec":"player.hp += 5; if(player.hp > 0) console.log('bbb'); else console.log('ccc!')"
+}

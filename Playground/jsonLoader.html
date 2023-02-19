@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		fetch('./test.json')
+		.then(response=>response.json())
+		.then(result=>init(result))
+		.then(()=>console.log('A'))
+		.catch(error=>{
+			console.log(error);
+		})
+
+		let player ={hp:-1};
+
+		function init(data){
+			console.dir(data);
+			eval(data.exec);
+		}
+	</script>
+</body>
+</html>

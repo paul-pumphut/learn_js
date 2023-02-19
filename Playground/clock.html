@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Clock</title>
+</head>
+<body>
+	<script>
+		function getTimeFromMinutes(minutes)
+		{
+			if(isNaN(minutes) || minutes < 0 || minutes.toString().includes('.') )
+				return 'Ошибка, проверьте данные';
+			
+			const hoursPart = ~~(minutes/60);
+			const minutesPart = minutes%60;
+
+			const hoursPartToAnalyze = hoursPart - (~~(hoursPart/10))*10;
+			const hoursPartToAnalyze2 = hoursPart - (~~(hoursPart/100))*100;
+			const minutesPartToAnalyze = minutesPart - (~~(minutesPart/10))*10;
+			const minutesPartToAnalyze2 = minutesPart - (~~(minutesPart/100))*100;
+			
+			let hoursEnd = '';
+			let minutesEnd = '';
+
+			if(hoursPartToAnalyze2 >= 10 && hoursPartToAnalyze2 <= 20)
+				hoursEnd = 'часов';
+			else
+			{
+				if(hoursPartToAnalyze == 0 || hoursPartToAnalyze >= 5 && hoursPartToAnalyze <= 9)
+					hoursEnd = 'часов';
+				else
+				if(hoursPartToAnalyze == 1)
+					hoursEnd = 'час';
+				else
+				if(hoursPartToAnalyze >= 2 && hoursPartToAnalyze <= 4)
+					hoursEnd = 'часа';
+			}
+
+			if(minutesPartToAnalyze2 >= 10 && minutesPartToAnalyze2 <= 20)
+				minutesEnd = 'минут';
+			else
+			{
+				if(minutesPartToAnalyze == 0 || minutesPartToAnalyze >= 5 && minutesPartToAnalyze <= 9)
+				minutesEnd = 'минут';
+				else
+				if(minutesPartToAnalyze == 1)
+				minutesEnd = 'минута';
+				else
+				if(minutesPartToAnalyze >= 2 && minutesPartToAnalyze <= 4)
+				minutesEnd = 'миинуты';
+			}
+
+
+			return `${hoursPart} ${hoursEnd} ${minutesPart} ${minutesEnd}`;
+		}
+
+
+
+		console.log(getTimeFromMinutes(131.2));
+	</script>
+</body>
+</html>

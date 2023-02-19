@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+
+		const LIMIT = 10000000;
+		const nums = [];
+
+		for (let i = 0; i < LIMIT; i++) {
+			nums.push(i);
+		}
+
+		console.time('exec');
+		console.log(divideArrayBy(nums, 3));
+		// divideArrayBy(nums, 3);
+
+		console.timeLog('exec');
+
+		/**
+		function divideArrayBy(arr, divider) {
+			const result = [];
+			for (let i=0; i<arr.length; i+=divider) {
+				result.push(arr.slice(i, i+divider));
+			}
+			return result;
+		}
+		/**/
+
+		/**/
+		function divideArrayBy(arr, divider) {
+			let counter = 0;
+			const result = new Array(Math.ceil(arr.length/divider));
+			let tmp = new Array(divider);
+			let dividerLimit = 0;
+			let idx = 0;
+			for (let i = 0; i < arr.length; i+=divider)
+			{
+				dividerLimit = i + divider < arr.length? divider : i + divider - arr.length - 1;
+				tmp = new Array(dividerLimit);
+				for(let t=0; t < dividerLimit;t++)
+					tmp[t] = i+t;
+				result[idx++] = tmp;
+			}
+			return result;
+		}
+		/**/
+
+
+		/**
+		function divideArrayBy(arr, divider) {
+			const result = [];
+			let counter = arr.length;
+			while(counter > 0)
+			{
+				// result.push(arr.splice(0, divider));
+				result.push(arr.slice(arr.length - counter, divider));
+				counter-=divider;
+			}
+			return result;
+		}
+		/**/
+
+
+		/**
+		function divideArrayBy(words, n) {
+			let tempArr = []
+			for (let k = 0; k < words.length; k += n) {
+				let newArr = []
+				if (words.length - k > n - 1) {
+					for (let i = 0; i < n; i++) {
+						newArr.push(words[k + i])
+					}
+				}
+				else {
+					let arr = words.splice(k, n);
+					for (let i = 0; i < arr.length; i++) {
+						newArr.push(arr[i])
+					}
+				}
+				tempArr.push(newArr);
+			}
+			return tempArr;
+		}
+		/**/
+
+	</script>
+</body>
+
+</html>

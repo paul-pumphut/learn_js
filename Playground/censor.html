@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function censor(){
+			const pairs = []
+			return function(a, b = null)
+			{
+				if(a && b)
+				{
+					pairs[a] = b;
+				}
+				else
+				{
+					for(const k in pairs)
+					{
+						a=a.replaceAll(k, pairs[k]);
+					}
+					return a;
+				}
+			}
+		}
+
+		const changeScene = censor();
+
+		changeScene('PHP', 'JS');
+		changeScene('backend','frontend');
+
+		console.log(changeScene('PHP is most popular programming language for backend web-development'));
+
+
+	</script>
+</body>
+</html>

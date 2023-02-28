@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+
+		body{
+			background-color: #2f2f2f;
+			background: url(img/leather_texture.jpg) no-repeat center center fixed;
+			background-size: cover;
+			overflow: hidden;
+		}
+
+		.canvas{
+			position: absolute;
+			background-color: #8f1b1b79;
+			width: 500px;
+			height: 500px;
+
+			/* top: 200px; */
+			/* left: 200px; */
+			top: 0px;
+			left: 0px;
+
+		}
+
+		.card{
+			position: absolute;
+			width:250px;
+			height:351px;
+			background: url(img/card_ah.jpg);
+			background-size:cover;
+
+			top: 200px;
+			left: 200px;
+		}
+
+	</style>
+
+	<div class="canvas">
+		<div class="card"></div>
+	</div>
+
+	<script>
+		window.onload = init;
+
+		let canvas = null;
+
+		let startDragPos = null;
+		let startCanvasPos = null;
+
+		let scale = 1;
+
+		function init(){
+			console.log('init');
+
+			canvas = document.querySelector('.canvas');
+
+			canvas.style.transformOrigin = "0 0";
+
+			document.addEventListener('mousedown', onDocumentMD);
+			document.addEventListener('mouseup', onDocumentMU);
+			document.addEventListener('mousemove', onDocumentMM);
+			document.addEventListener('wheel', onDocumentMW);
+		}
+
+		function onDocumentMD(e){
+			let rect = canvas.getBoundingClientRect();
+			startDragPos = {x:e.clientX -  rect.x, y:e.clientY - rect.y};
+		}
+
+		function onDocumentMU(e){
+			startDragPos = null;
+			let rectA = canvas.getBoundingClientRect();
+			console.log(rectA.x,rectA.y);
+		}
+
+		function onDocumentMM(e){
+			if(!startDragPos)
+			return;
+			
+			canvas.style.left = e.clientX - startDragPos.x + 'px';
+			canvas.style.top = e.clientY - startDragPos.y  + 'px';
+		}
+
+		function onDocumentMW(e){
+			let rect = canvas.getBoundingClientRect();
+			let startZoomPos = {x:e.clientX -  rect.x, y:e.clientY - rect.y};
+			console.log("rect:", rect.x,rect.y);
+			console.log("startZoomPos:", startZoomPos);
+			
+
+			// return;
+
+			scale += -0.051 * e.deltaY/100;
+			canvas.style.scale = scale;  
+			let rectB = canvas.getBoundingClientRect();
+
+			let endZoomPos = {x:e.clientX -  rectB.x, y:e.clientY - rectB.y};
+			console.log("rectB:", rectB.x,rectB.y);
+			console.log("endZoomPos:", endZoomPos);
+
+			let dx = endZoomPos.x - startZoomPos.x;
+			let dy = endZoomPos.y - startZoomPos.y;
+			// canvas.style.left = e.clientX  + dx + 'px';
+			// canvas.style.top = e.clientY  + dy  + 'px';
+			// canvas.style.left = e.clientX  - dx + 'px';
+			// canvas.style.top = e.clientY  - dy  + 'px';
+			// canvas.style.left = e.clientX  - rectB.x * scale + 'px';
+			// canvas.style.top = e.clientY  - rectB.y * scale + 'px';
+
+		}
+
+
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing:border-box;
+		}
+
+		body{
+			background-color: #2f2f2f;
+		}
+
+		.elem{
+			position: absolute;
+			left: 100px;
+			top: 100px;
+			width: 400px;
+			height: 400px;
+			background-color: #cf3d3d94;
+		}
+	</style>
+	<div class="elem"></div>
+
+
+	<script>
+		window.onload = init;
+		function init(){
+			console.log('init');
+
+			let elem = document.querySelector('.elem');
+			
+			let bbA = elem.getBoundingClientRect();
+			console.log('offset:',elem.offsetLeft, elem.offsetTop);
+			console.log('bounding:',bbA.x, bbA.y);
+
+			console.log('.... set scale 1.1');
+			elem.style.scale = 1.1;
+
+			// elem.style.left = '200px';
+			// elem.style.top = '200px';
+
+			bbA = elem.getBoundingClientRect();
+			console.log('offset:',elem.offsetLeft, elem.offsetTop);
+			console.log('bounding:',bbA.x, bbA.y);
+
+			elem.style.left = 0 + 'px';
+			elem.style.top = 0 + 'px';
+
+
+
+		}
+	</script>
+</body>
+</html>

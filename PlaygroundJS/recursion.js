@@ -68,3 +68,14 @@ const result = calcSalary(company);
 console.log(result);
 */
 
+// calculate sum
+/*
+function calcSum(n) {
+	if (n == 1)
+		return 1;
+	return n + calcSum(n - 1);
+}
+
+const result = calcSum(100);
+console.log(result);
+*/
